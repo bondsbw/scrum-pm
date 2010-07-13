@@ -20,7 +20,7 @@
           %>
           <%= link_to_remote image_tag("/plugin_assets/redmine_sprints/images/delete.png",:title => l('delete')),
             :url => {:controller => :user_stories, :action => :destroy, :project_id => @project, :id => user_story.id, :confirm => 'Are you sure?', :method => :post},
-            :confirm => l('Are you sure?')
+            :confirm => 'Are you sure?'
           %>
         </td>
       </tr>

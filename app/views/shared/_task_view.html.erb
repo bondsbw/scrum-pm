@@ -18,7 +18,12 @@
     <td>
       <p id="edit_user_<%= task.id %>" class="editable">
         <%= image_tag("/plugin_assets/redmine_sprints/images/user.png", :class => "middle") -%>
-        <b><%= User.find(task.assigned_to_id).login unless task.assigned_to_id.nil? -%></b>
+		<% current_user = task.assigned_to_id.nil? ? nil : User.find(task.assigned_to_id) %>
+		<% if current_user %>
+			<b><%= current_user.firstname + (current_user.lastname.empty? ? "" : " " + current_user.lastname[0,1] + ".") -%></b>
+	    <% else %>
+		    <i>[Unassigned]</i>
+        <% end %>
         <span style="display:none;">
           <%= select :user, :id, project_users.collect{|u|[u.name, u.id]},{:id => "issue_assign_to_#{task.id}", :include_blank => true, :selected => task.assigned_to_id},
                                 {:onChange => remote_function(:url => {:controller => :issue_sprints,

@@ -34,10 +34,10 @@ class Burndown
   def sprint_data
     @sprint_data ||= dates.map do |date|
 
-      total_points_left = 0
+      total_points_left = 0.0
       version.user_stories.each{|user_story|
-        if !user_story.is_done?(date)
-          total_points_left += user_story.story_points
+	    if !user_story.is_done?(date)
+          total_points_left += user_story.story_points * (1.0 - user_story.done_ratio(date))
         end
       }
       total_points_left

@@ -11,7 +11,7 @@ module SprintsHelper
   end
 
   def done_user_stories( sprint )
-    done_counter = 0
+    done_counter = 0.0
     for user_story in sprint.user_stories
       done_counter += done_tasks_in_stories(user_story)
     end
@@ -19,7 +19,7 @@ module SprintsHelper
   end
 
   def done_tasks_in_stories( user_story )
-    done = 0
+    done = 0.0
     done = user_story.issues.find_all{|t| t.done_ratio == 100}.nitems
     if done == 0
       return 0
@@ -28,7 +28,7 @@ module SprintsHelper
   end
 
   def all_user_stories( sprint )
-    all_counter = 0
+    all_counter = 0.0
     for user_story in sprint.user_stories
       all_counter += user_story.time_estimate.value;
     end
@@ -45,15 +45,15 @@ module SprintsHelper
 
   def load_sprint_stats(sprint, data)
     if data.size == 0
-      data = {:all_points => 0, :pending => 0, :in_progress => 0, :done => 0, :percent_done => 0 }
+      data = {:all_points => 0.0, :pending => 0.0, :in_progress => 0.0, :done => 0.0, :percent_done => 0.0 }
     end
     if sprint.user_stories.size > 0
       sprint.user_stories.each{|u|
         data[:all_points] += u.time_estimate.value
 
-        pending = 0
-        inprogress = 0
-        done = 0
+        pending = 0.0
+        inprogress = 0.0
+        done = 0.0
         u.issues.each { |i|
           case i.done_ratio
           when 0
@@ -64,14 +64,11 @@ module SprintsHelper
             inprogress += 1
           end
         }
-        if done == u.issues.size && u.issues.size > 0
-          data[:done] += u.time_estimate.value
-        else
-          if done > 0 || inprogress > 0
-            data[:in_progress] += u.time_estimate.value
-          else
-            data[:pending] += u.time_estimate.value
-          end
+        if u.issues.size > 0
+		  all_points = done + inprogress + pending
+          data[:done] += u.time_estimate.value * (done / all_points)
+          data[:in_progress] += u.time_estimate.value * (inprogress / all_points)			
+          data[:pending] += u.time_estimate.value * (pending / all_points)
         end
       }
       data[:percent_done] = ((data[:done]/data[:all_points])*100).to_i.to_s + "%" if data[:all_points] > 0
@@ -80,7 +77,7 @@ module SprintsHelper
   end
 
   def load_project_stats(project)
-    data = {:all_points => 0, :pending => 0, :in_progress => 0, :done => 0, :percent_done => 0, :un_assign => 0 }
+    data = {:all_points => 0.0, :pending => 0.0, :in_progress => 0.0, :done => 0.0, :percent_done => 0.0, :un_assign => 0.0 }
     UserStory.find(:all, :conditions => ["version_id is null"]).each { |i|
       data[:un_assign] += i.time_estimate.value
     }

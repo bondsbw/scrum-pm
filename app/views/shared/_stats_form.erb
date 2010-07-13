@@ -7,10 +7,10 @@
   </tr>
   <tr>
       <td class="sprint_stats_total">
-        <%= @data[:all_points] %>
+        <%= "%.1f" % @data[:all_points] %>
       </td>
       <td class="sprint_stats_done">
-        <%= @data[:done] %>
+        <%= "%.1f" % @data[:done] %>
       </td>
       <td class="sprint_stats_done">
         <%= @data[:percent_done] %>
