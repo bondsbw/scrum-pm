@@ -108,6 +108,13 @@ class UserStoriesController < ApplicationController
     sprint_id = -1
     @user_story = UserStory.find(params[:id])
     user_story_id = @user_story.id
+	
+	Issue.find(:all, :conditions => { :user_story_id => user_story_id }).each do |issue|
+        issue.init_journal(User.current)
+        issue.user_story_id = nil
+		issue.save
+    end
+	
     unless @user_story.sprint.nil?
       sprint_id = @user_story.version_id if @user_story.sprint.user_stories.size == 1
     else
