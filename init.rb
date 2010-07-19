@@ -14,13 +14,13 @@ Redmine::Plugin.register :redmine_sprints do
   name 'Redmine Scrum Sprints plugin'
   author 'Software Project- Marcin Jedras'
   description 'This is Redmine plugin for scrum software development'
-  version '0.1.4'
+  version '0.1.4.1'
 
   project_module :sprints do
     permission :view_sprints, {:sprints => [:index, :show]}
     permission :manage_sprints_and_user_stories, {:sprints => [:create, :new, :edit, :update, :assign_us, :assign_to_milestone, :destroy],
                                                   :user_stories => [:new, :create, :edit, :update, :destroy]}
-    permission :manage_tasks, {:issue_sprints => [:new, :create, :status_change, :update_task]}
+    permission :manage_tasks, {:issue_sprints => [:new, :create, :status_change, :update_task, :status_delete]}
   end
   
   Redmine::MenuManager.map :project_menu do |menu|

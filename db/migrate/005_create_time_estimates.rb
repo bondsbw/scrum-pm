@@ -14,10 +14,9 @@ class CreateTimeEstimates < ActiveRecord::Migration
     TimeEstimate.create :estimation => "3", :value => 3
     TimeEstimate.create :estimation => "5", :value => 5
     TimeEstimate.create :estimation => "8", :value => 8
-    TimeEstimate.create :estimation => "14", :value => 14
+    TimeEstimate.create :estimation => "13", :value => 13
     TimeEstimate.create :estimation => "20", :value => 20
-    TimeEstimate.create :estimation => "50", :value => 50
-    TimeEstimate.create :estimation => "80", :value => 80
+    TimeEstimate.create :estimation => "40", :value => 40
     TimeEstimate.create :estimation => "100", :value => 100
   end
 
